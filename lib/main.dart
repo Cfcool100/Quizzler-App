@@ -6,6 +6,7 @@ class Quizzler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.grey.shade900,
         body: SafeArea(
@@ -32,27 +33,56 @@ class _QuizPageState extends State<QuizPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Expanded(
-          flex: 5,
+          flex: 6,
           child: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
             child: Center(
-              child: Text(
-                'This is where the question text will go.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
+              child: Container(
+                height: MediaQuery.of(context).size.height * .45,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  border: Border.all(
+                      color: Colors.white,
+                      width: 1.0,
+                      style: BorderStyle.solid),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Center(
+                  child: Text(
+                    'This is where the question text will go.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 25.0, fontWeight: FontWeight.w500,
+                      // color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.check,
+                color: Colors.green,
+              ),
+              Icon(
+                Icons.close,
+                color: Colors.red,
+              ),
+            ],
+          ),
+        ),
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              textColor: Colors.white,
-              color: Colors.green,
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.green),
+              ),
               child: Text(
                 'True',
                 style: TextStyle(
@@ -69,8 +99,10 @@ class _QuizPageState extends State<QuizPage> {
         Expanded(
           child: Padding(
             padding: EdgeInsets.all(15.0),
-            child: FlatButton(
-              color: Colors.red,
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.red),
+              ),
               child: Text(
                 'False',
                 style: TextStyle(
@@ -84,7 +116,6 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
       ],
     );
   }
