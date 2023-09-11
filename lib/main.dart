@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/quiz_brain.dart';
+
+QuizzBrain quizzBrain = QuizzBrain();
 
 void main() => runApp(Quizzler());
 
@@ -26,6 +29,24 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> score = [];
+
+  void checkAnswer(bool userAnswer) {
+    bool correctAnswer = quizzBrain.getAnswer();
+    if (userAnswer == correctAnswer) {
+      score.add(
+        Icon(Icons.check, color: Colors.green),
+      );
+    } else {
+      score.add(
+        Icon(Icons.close, color: Colors.red),
+      );
+    }
+    setState(() {
+      quizzBrain.checkNextQ();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,12 +69,15 @@ class _QuizPageState extends State<QuizPage> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Center(
-                  child: Text(
-                    'This is where the question text will go.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 25.0, fontWeight: FontWeight.w500,
-                      // color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      quizzBrain.getQuestion(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20.0, fontWeight: FontWeight.w500,
+                        // color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -61,19 +85,12 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.check,
-                color: Colors.green,
-              ),
-              Icon(
-                Icons.close,
-                color: Colors.red,
-              ),
-            ],
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              children: score,
+            ),
           ),
         ),
         Expanded(
@@ -91,7 +108,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked true.
+                checkAnswer(true);
               },
             ),
           ),
@@ -111,7 +128,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked false.
+                checkAnswer(false);
               },
             ),
           ),
