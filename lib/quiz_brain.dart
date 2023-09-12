@@ -43,4 +43,16 @@ class QuizzBrain {
   bool getAnswer() {
     return _questons[_index].answers;
   }
+
+  bool isFinished(bool) {
+    if (_questons.length - 1 == _index) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  int reset() {
+    return _index = 0;
+  }
 }
